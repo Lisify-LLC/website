@@ -1,0 +1,73 @@
+.header{
+  display: flex;
+  height: 80px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 1;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.c-header,.r-header{
+  align-items: center;
+  justify-content: right;
+}
+
+.l-header{
+  height: 80px;
+  display: flex;
+  background-color: rgb(0, 0, 0);
+  flex: 1;
+  align-items: center;
+
+}
+
+.r-header{
+  height: 80px;
+  display: flex;
+  background-color: rgb(0, 0, 0);
+  flex: 1;
+}
+
+.title{
+  cursor: pointer;
+  font-size: 48px;
+  margin-left: 24px;
+  color: rgb(0, 150, 115);
+  font-family: 'Chakra Petch';
+  margin-right: 36px;
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+.home-button, .about-button, .p-button, .contact-button{
+  height: 57.33px;
+  min-width: 90px;
+  font-size: 20px;
+  font-family: 'Chakra Petch';
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 150, 115);
+  border-width: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 1;
+  box-shadow: 0px 5px 0px 1px rgba(0, 150, 100, 0.5);
+  transition-duration: 0.2s;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.home-button:active, .about-button:active, .p-button:active, .contact-button:active{
+  opacity: 0.8;
+  box-shadow: 0px 2px 0px 1px rgba(0, 150, 100, 0.5);
+  transform: translateY(4px);
+
+}
+
+.p-button{
+  margin-right: 24px;
+}
