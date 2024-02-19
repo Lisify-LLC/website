@@ -1,6 +1,6 @@
 body {
   margin: 0px;
-  padding-top: 80px;
+  padding-top: 100px;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -26,4 +26,29 @@ p {
   font-family: 'Chakra Petch';
   font-size: 5vw; /* Responsive font size */
   color: white;
+}
+
+.g-button {
+  height: 5vw; /* Responsive button height */
+  min-width: 90px;
+  width: 20vw; /* Responsive button width */
+  font-size: 1.8vw; /* Responsive font size */
+  font-family: 'Chakra Petch';
+  color: rgb(0, 0, 0);
+  background-color: rgb(0, 150, 115);
+  border-width: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 1;
+  box-shadow: 0px 0.6vw 0px 0px rgba(0, 150, 100, 0.5); /* Responsive box shadow */
+  transition-duration: 0.2s;
+  padding-left: 1.6vw; /* Responsive padding */
+  padding-right: 1.6vw; /* Responsive padding */
+  margin-left: 1vw;
+}
+
+.g-button:active {
+  opacity: 0.8;
+  box-shadow: 0px 0.2vw 0px 0px rgba(0, 150, 100, 0.5); /* Responsive box shadow */
+  transform: translateY(4px); /* Responsive transform */
 }
