@@ -33,7 +33,7 @@
 
 .title {
   cursor: pointer;
-  font-size: 50px;; /* Responsive font size */
+  font-size: 50px; /* Responsive font size */
   margin-left: 2vw; /* Responsive margin */
   color: rgb(0, 150, 115);
   font-family: 'Chakra Petch';
@@ -45,7 +45,7 @@
 .home-button, .about-button, .p-button, .contact-button {
   height: 7vh; /* Responsive button height */
   min-width: 10%; /* Responsive button width */
-  font-size: 2vw; /* Responsive font size */
+  font-size: 1vw; /* Responsive font size */
   font-family: 'Chakra Petch';
   color: rgb(0, 0, 0);
   background-color: rgb(0, 150, 115);
@@ -57,6 +57,17 @@
   transition-duration: 0.2s;
   margin-right: 1vw; /* Responsive margin */
   margin-left: 1vw; /* Responsive margin */
+
+}
+
+.about-button{
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+
+.p-button{
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
 
 .home-button:active, .about-button:active, .p-button:active, .contact-button:active {
