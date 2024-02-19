@@ -23,7 +23,25 @@ conn.commit()
 def home():
     return render_template('index.html')
 
-# Other routes...
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
+@app.route("/customize")
+def customize():
+    return render_template('customize.html')
+
+@app.route('/login')
+def login():
+    # Initialize SpotifyOAuth with client ID, client secret, redirect URI, and scope
+    sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
+                            client_secret=SPOTIPY_CLIENT_SECRET,
+                            redirect_uri=SPOTIPY_REDIRECT_URI,
+                            scope=SCOPE)
+    # Get the authorization URL
+    auth_url = sp_oauth.get_authorize_url()
+    return redirect(auth_url)
+
 
 @app.route('/callback')
 def callback():
