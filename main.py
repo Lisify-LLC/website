@@ -1,21 +1,29 @@
-from flask import Flask, render_template, redirect, url_for, session, request
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-import secrets
+from flask import Flask, redirect, url_for, session, request, render_template
+import requests
+import base64
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
-my_secret_key = secrets.token_hex(16)
-app.secret_key = my_secret_key 
+# Spotify API credentials
+CLIENT_ID = '82948513a27844e2835f901062dfceea'
+CLIENT_SECRET = '98eaebd996fc45d59f104ab768be87f5'
+REDIRECT_URI = 'http://localhost:5000/callback'
 
-# Define Spotify OAuth parameters
-SPOTIPY_CLIENT_ID = '82948513a27844e2835f901062dfceea'
-SPOTIPY_CLIENT_SECRET = '98eaebd996fc45d59f104ab768be87f5'
-SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
+# Spotify API endpoints
+SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
+SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token'
+SPOTIFY_API_BASE_URL = 'https://api.spotify.com/v1'
+SPOTIFY_API_VERSION = 'v1'
+SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}'
+
+# Scopes for Spotify API
 SCOPE = 'user-top-read playlist-modify-public'
+STATE = ''
 
-@app.route("/")
-def home():
+@app.route('/')
+def index():
     return render_template('index.html')
 
 @app.route("/about")
@@ -28,64 +36,65 @@ def customize():
 
 @app.route('/login')
 def login():
-    # Initialize SpotifyOAuth with client ID, client secret, redirect URI, and scope
-    sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                            client_secret=SPOTIPY_CLIENT_SECRET,
-                            redirect_uri=SPOTIPY_REDIRECT_URI,
-                            scope=SCOPE)
-    # Get the authorization URL
-    auth_url = sp_oauth.get_authorize_url()
+    payload = {
+        'client_id': CLIENT_ID,
+        'response_type': 'code',
+        'redirect_uri': REDIRECT_URI,
+        'scope': SCOPE,
+        'state': STATE
+    }
+    auth_url = f'{SPOTIFY_AUTH_URL}?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}&state={STATE}'
     return redirect(auth_url)
 
 @app.route('/callback')
 def callback():
-    # Get the authorization code from the callback URL
-    code = request.args.get('code')
-    # Initialize SpotifyOAuth
-    sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                            client_secret=SPOTIPY_CLIENT_SECRET,
-                            redirect_uri=SPOTIPY_REDIRECT_URI,
-                            scope=SCOPE)
-    # Exchange authorization code for access token
-    token_info = sp_oauth.get_access_token(code)
-    # Store token information in session
-    session['token_info'] = token_info
-    return redirect(url_for('customize'))
+    auth_token = request.args['code']
+    code_payload = {
+        'grant_type': 'authorization_code',
+        'code': str(auth_token),
+        'redirect_uri': REDIRECT_URI,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload, headers=headers)
+
+    response_data = post_request.json()
+    access_token = response_data['access_token']
+
+    session['access_token'] = access_token
+
+    return redirect(url_for('generate_playlist'))
 
 @app.route('/generate_playlist')
 def generate_playlist():
-    if 'token_info' not in session:
+    if 'access_token' not in session:
         return redirect(url_for('login'))
 
-    # Retrieve token information from session
-    token_info = session['token_info']
+    # Retrieve user's top tracks from Spotify
+    top_tracks_url = f"{SPOTIFY_API_URL}/me/top/tracks"
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    params = {'time_range': 'short_term', 'limit': 30}
+    response = requests.get(top_tracks_url, headers=headers, params=params)
+    top_tracks_data = response.json()
 
-    # Check if the token has expired, and refresh if necessary
-    sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                            client_secret=SPOTIPY_CLIENT_SECRET,
-                            redirect_uri=SPOTIPY_REDIRECT_URI,
-                            scope=SCOPE)
-    if sp_oauth.is_token_expired(token_info):
-        token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
-        session['token_info'] = token_info
+    # Create a new playlist
+    create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
+    playlist_name = "Top Tracks Last Month"
+    playlist_data = {
+        'name': playlist_name,
+        'public': True
+    }
+    response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
+    playlist_id = response.json()['id']
 
-    # Create a Spotify client object using the access token
-    sp = spotipy.Spotify(auth=token_info['access_token'])
-
-    # Get the user's top tracks from the last month 
-    top_tracks = sp.current_user_top_tracks(limit=30, time_range='short_term')
-    # Extract URIs of top tracks
-    top_track_uris = [track['uri'] for track in top_tracks['items']]
-    # Define playlist name
-    playlist_name = 'Top 30 Tracks from Last Month'
-    # Get user ID
-    user_id = sp.current_user()['id']
-    # Create a playlist with the specified name
-    playlist_id = sp.user_playlist_create(user=user_id, name=playlist_name)['id']
-    # Add top tracks to the created playlist
-    sp.playlist_add_items(playlist_id, items=top_track_uris)
+    # Add tracks to the playlist
+    track_uris = [track['uri'] for track in top_tracks_data['items']]
+    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+    tracks_data = {'uris': track_uris}
+    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
 
     return "Playlist generated successfully!"
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
