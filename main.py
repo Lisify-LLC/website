@@ -19,7 +19,7 @@ SPOTIFY_API_VERSION = 'v1'
 SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}'
 
 # Scopes for Spotify API
-SCOPE = 'user-top-read playlist-modify-public playlist-modify-private'
+SCOPE = 'user-top-read playlist-modify-public'
 STATE = ''
 
 @app.route('/')
@@ -43,9 +43,6 @@ def login():
         'scope': SCOPE,
         'state': STATE
     }
-    playlist_type = request.args.get('playlist_type')
-    if playlist_type:
-        session['playlist_type'] = playlist_type
     auth_url = f'{SPOTIFY_AUTH_URL}?client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&scope={SCOPE}&state={STATE}'
     return redirect(auth_url)
 
@@ -67,10 +64,7 @@ def callback():
 
     session['access_token'] = access_token
 
-
     return redirect(url_for('generate_playlist'))
-
-
 
 @app.route('/generate_playlist')
 def generate_playlist():
@@ -86,7 +80,7 @@ def generate_playlist():
 
     # Create a new playlist
     create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
-    playlist_name = "Top 30 Tracks Last Month"
+    playlist_name = "Top Tracks Last Month"
     playlist_data = {
         'name': playlist_name,
         'public': True
@@ -100,8 +94,7 @@ def generate_playlist():
     tracks_data = {'uris': track_uris}
     response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
 
-    return render_template('complete.html')
-
+    return "Playlist generated successfully!"
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
