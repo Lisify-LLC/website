@@ -22,8 +22,25 @@ main{
 
 }
 
+.vision, .personal-info {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
+  margin-left: 100px;
+}
+
 p {
   font-family: 'Chakra Petch';
   font-size: 80px;
   color: white;
+}
+
+.visionp, .aboutp {
+  font-size: 20px;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
 }

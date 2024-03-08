@@ -30,6 +30,10 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route("/privacy-policy")
+def privacy_policy():
+    return render_template('privacy-policy.html')
+
 @app.route("/customize")
 def customize():
     return render_template('customize.html')
