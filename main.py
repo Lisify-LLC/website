@@ -9,7 +9,7 @@ app.secret_key = os.urandom(24)
 # Spotify API credentials
 CLIENT_ID = '82948513a27844e2835f901062dfceea'
 CLIENT_SECRET = '98eaebd996fc45d59f104ab768be87f5'
-REDIRECT_URI = 'http://localhost:5000/callback'
+REDIRECT_URI = 'https://druffolo.pythonanywhere.com/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
