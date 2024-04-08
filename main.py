@@ -93,7 +93,7 @@ def generate_playlist():
     playlist_name = "Top 30 Tracks Last Month"
     playlist_data = {
         'name': playlist_name,
-        'description': '30 Day Playlist',
+        'description': '',
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
