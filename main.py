@@ -81,13 +81,6 @@ def generate_playlist():
     if 'access_token' not in session:
         return redirect(url_for('login'))
 
-    # Retrieve user's top tracks from Spotify
-    top_tracks_url = f"{SPOTIFY_API_URL}/me/top/tracks"
-    headers = {'Authorization': f"Bearer {session['access_token']}"}
-    params = {'time_range': 'short_term', 'limit': 30}
-    response = requests.get(top_tracks_url, headers=headers, params=params)
-    top_tracks_data = response.json()
-
     # Create a new playlist
     create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
     playlist_name = "Top 30 Tracks Last Month"
@@ -98,6 +91,13 @@ def generate_playlist():
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
     playlist_id = response.json()['id']
+
+    # Retrieve user's top tracks from Spotify
+    top_tracks_url = f"{SPOTIFY_API_URL}/me/top/tracks"
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    params = {'time_range': 'short_term', 'limit': 30}
+    response = requests.get(top_tracks_url, headers=headers, params=params)
+    top_tracks_data = response.json()
 
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
