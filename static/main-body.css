@@ -4,7 +4,7 @@ body {
   width: 100%;
   min-height: 100vh;
   display: flex;
-  background-color: rgb(51, 51, 51);
+  background-color: rgb(46, 45, 45);
 }
 
 .main-flex {
@@ -14,7 +14,7 @@ body {
 
 .main-page {
   width: 100%;
-  background-color: rgb(51, 51, 51);
+  background-color: rgb(46, 45, 45);
   display: grid;
   grid-template-columns: 4fr 3fr;
 }
