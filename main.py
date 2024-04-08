@@ -94,6 +94,7 @@ def generate_playlist():
     playlist_data = {
         'name': playlist_name,
         'public': True
+        'description':"30 Day Playlist"
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
     playlist_id = response.json()['id']
