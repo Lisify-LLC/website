@@ -118,13 +118,18 @@ def generate_playlist():
 
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
-    if not all(track_uris):  # Check if all track URIs are valid
-        return "Error: Invalid track URIs"
-    tracks_data = {
-        'uris': track_uris
-    }
-    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)    
-    response.raise_for_status()  # Raise an exception if the request failed
+    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+    tracks_data = {'uris': track_uris}
+    while True:
+        response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
+        if response.status_code != 429:
+            break
+        retry_after = int(response.headers['Retry-After'])
+        time.sleep(retry_after)
+
+    # Print the status code and response body
+    print(f"Status code: {response.status_code}")
+    print(f"Response body: {response.json()}")
     
     # Create Variables for Embeded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
