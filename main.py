@@ -7,9 +7,9 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
-CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
-REDIRECT_URI = 'https://listify.lol/callback'
+CLIENT_ID = '23b153e787a14abe82424a9238c36101'
+CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
+REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
@@ -105,8 +105,12 @@ def generate_playlist():
     tracks_data = {'uris': track_uris}
     response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
 
-    return render_template('complete.html')
+    # Create Variables for Embeded Playlist
+    playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+    playlist_title = playlist_name
+
+    return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 
 
 if __name__ == '__main__':
-    app.run(host= "0.0.0.0", port=5000)
+    app.run(debug=True)
