@@ -104,8 +104,13 @@ def generate_playlist():
     add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
     tracks_data = {'uris': track_uris}
     response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
+    
+    # Create Variables for Embedded Playlist
+    playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+    playlist_title = playlist_name
 
-    return render_template('complete.html')
+    return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
+
 
 
 if __name__ == '__main__':
