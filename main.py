@@ -16,9 +16,9 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-CLIENT_ID = '23b153e787a14abe82424a9238c36101'
-CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
-REDIRECT_URI = 'http://127.0.0.1:5000/callback'
+CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
+CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
+REDIRECT_URI = 'https://listify.lol/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
@@ -118,18 +118,13 @@ def generate_playlist():
 
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
-    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-    tracks_data = {'uris': track_uris}
-    while True:
-        response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
-        if response.status_code != 429:
-            break
-        retry_after = int(response.headers['Retry-After'])
-        time.sleep(retry_after)
-
-    # Print the status code and response body
-    print(f"Status code: {response.status_code}")
-    print(f"Response body: {response.json()}")
+    if not all(track_uris):  # Check if all track URIs are valid
+        return "Error: Invalid track URIs"
+    tracks_data = {
+        'uris': track_uris
+    }
+    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)    
+    response.raise_for_status()  # Raise an exception if the request failed
     
     # Create Variables for Embeded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
@@ -139,4 +134,4 @@ def generate_playlist():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
