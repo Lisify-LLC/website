@@ -1,7 +1,16 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 import requests
-import base64
 import os
+import time
+from requests.adapters import HTTPAdapter
+from requests.adapters import Retry
+
+# Set up a session with retry logic
+requests_session = requests.Session()
+retry = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 429, 500, 502, 503, 504 ])
+adapter = HTTPAdapter(max_retries=retry)
+requests_session.mount('http://', adapter)
+requests_session.mount('https://', adapter)
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -97,14 +106,26 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
+
+    # Get the playlist_id from the response
     playlist_id = response.json()['id']
+
+    # Now define the add_tracks_url
+    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+
+    # Add a delay before adding tracks
+    time.sleep(1)
 
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
-    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-    tracks_data = {'uris': track_uris}
-    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
-
+    if not all(track_uris):  # Check if all track URIs are valid
+        return "Error: Invalid track URIs"
+    tracks_data = {
+        'uris': track_uris
+    }
+    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)    
+    response.raise_for_status()  # Raise an exception if the request failed
+    
     # Create Variables for Embeded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     playlist_title = playlist_name
