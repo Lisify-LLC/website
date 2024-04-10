@@ -118,7 +118,7 @@ def generate_playlist():
 
     # Create a new playlist
     create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
-    playlist_name = "Top 30 Tracks Last Month"
+    playlist_name = "Top 20 Tracks Last Year"
     playlist_data = {
         'name': playlist_name,
         'description': '',
