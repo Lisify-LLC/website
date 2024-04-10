@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/d126de4a8e38b7c0bc498bd2d2e1c0c7?family=Retrochips);
+
 body{
   margin: 0px;
   padding-top: 80px;
@@ -32,14 +34,14 @@ main{
 }
 
 .p-p {
-  font-family: 'Chakra Petch';
+  font-family: 'Retrochips';
   font-size: 80px;
   color: white;
 }
 
 .privacy-info {
   font-size: 20px;
-  font-family: 'Chakra Petch';
+  font-family: 'Retrochips';
   color: white;
   font-size: 20px;
   align-items: center;
