@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Retrokia';
-  src: url('Retrokia.ttf') format('truetype');
+  font-family: 'MyFont';
+  src: url('VTCSuperMarketSaleItalic.ttf') format('truetype');
 }
 
 body {
@@ -30,13 +30,13 @@ main {
 }
 
 p {
-  font-family: 'Retrokia';
+  font-family: 'MyFont';
   font-size: 5vw; /* Responsive font size */
   color: white;
 }
 
 .slider-text {
-  font-family: 'Retrokia';
+  font-family: 'MyFont';
   font-size: 2.5vw; /* Responsive font size */
   color: white;
   display: flex;
@@ -50,7 +50,7 @@ p {
   min-width: 90px;
   width: 50vw; /* Responsive button width */
   font-size: 1.8vw; /* Responsive font size */
-  font-family: 'Retrokia';
+  font-family: 'MyFont';
   color: rgb(0, 0, 0);
   background-color: rgb(0, 150, 115);
   border-width: 0;

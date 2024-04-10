@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Retrokia';
-  src: url('Retrokia.ttf') format('truetype');
+  font-family: 'MyFont';
+  src: url('VTCSuperMarketSaleItalic.ttf') format('truetype');
 }
 
 .header {
@@ -41,7 +41,7 @@
   font-size: 48px; /* Responsive font size */
   margin-left: 2vw; /* Responsive margin */
   color: rgb(0, 150, 115);
-  font-family: "Retrokia";
+  font-family: "MyFont";
   margin-right: 5vw; /* Responsive margin */
   text-decoration: none;
 }
@@ -50,7 +50,7 @@
   height: 7vh; /* Responsive button height */
   min-width: 10%; /* Responsive button width */
   font-size: 1vw; /* Responsive font size */
-  font-family: "Retrokia";
+  font-family: "MyFont";
   color: rgb(0, 0, 0);
   background-color: rgb(0, 150, 115);
   border-width: 0;

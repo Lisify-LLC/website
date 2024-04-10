@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Retrokia';
-  src: url('Retrokia.ttf') format('truetype');
+  font-family: 'MyFont';
+  src: url('VTCSuperMarketSaleItalic.ttf') format('truetype');
 }
 
 body{
@@ -28,7 +28,8 @@ main{
 }
 
 p {
-  font-family: 'Retrokia';
-  font-size: 80px;
+  font-family: 'MyFont';
+  font-size: 50px;
+  padding-top: 10px;
   color: white;
 }
