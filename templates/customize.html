@@ -46,27 +46,59 @@
   </header>
 
   <main>
-    <a href = "/generate_playlist"; = "/login"><button id = "toggleButton" class = "t-button" onclick = toggleButton() >Generate Track Playlist</button></a>
+    <div class = "main-page">
+      <form action = "/data" method = "POST">
+        <div class = "track-slider">
+          <form action = "/data" method = "POST">
+          <input type="range" min="1" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
+          <p class = "slider-text">Tracks: <span id="demo"></span></p>
+          <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+            
+            slider.oninput = function() {
+              output.innerHTML = this.value;
+            }
 
-    <button class = "a-button" >Generate Artist Playlist</button>
+          </script>
+          </form>
+        </div>
+        <div class = "time-slider">
+        <form action = "/data" method = "POST">
+          <input type="range" min="1" max="3" value="Last 6 Months" class="slider-time" id="myRange2" name = "time">
+          <p class = "slider-text">Timeline: <span id="demo2"></span></p>
+          <script>
+            var slider2 = document.getElementById("myRange2");
+            var output2 = document.getElementById("demo2");
+            
+      
+            function setInitialText() {
+              if (slider2.value == 1) {
+                output2.innerHTML = "Last Month";
+              } else if (slider2.value == 2) {
+                output2.innerHTML = "Last 6 Months";
+              } else {
+                output2.innerHTML = "Last Year";
+              }
+            }
+      
+            slider2.oninput = function() {
+              setInitialText();
+            }
+
+          </script>
+          </form>
+        </div>
+        <form action = "/data" method = "POST">
+        <button type="submit" class = "t-button">Send Customization</button>
+        </form>
+        <div class = "button-container">
+          <a href = "/generate_playlist"; = "/login"><button class = "t-button">Generate Playlist</button>
+        </div>
+      
+  </div>
   </main>
-
-  <script>
-    var buttonState = false; // Initially, button is in off state
-    
-    function toggleButton() {
-      var button = document.getElementById('toggleButton');
-      if (buttonState) {
-        buttonState = false;
-        button.classList.remove('active');
-        button.classList.add('inactive');
-      } else {
-        buttonState = true;
-        button.classList.remove('inactive');
-        button.classList.add('active');
-      }
-    }
-    </script>
 
 </body>
 

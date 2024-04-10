@@ -1,16 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 import requests
 import os
-import time
-from requests.adapters import HTTPAdapter
-from requests.adapters import Retry
-
-# Set up a session with retry logic
-requests_session = requests.Session()
-retry = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 429, 500, 502, 503, 504 ])
-adapter = HTTPAdapter(max_retries=retry)
-requests_session.mount('http://', adapter)
-requests_session.mount('https://', adapter)
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -83,18 +73,47 @@ def callback():
 
     return redirect(url_for('generate_playlist'))
 
+@app.route('/data', methods=['GET', 'POST'])
+def data():
+    track_value = request.form.get('tracks')
+    timeline = request.form.get('time')
 
+    # Store values in the session
+    session['track_value'] = track_value
+    session['timeline'] = timeline
 
-@app.route('/generate_playlist')
+    print("Track value:", track_value)
+    print("Timeline:", timeline)
+
+    return render_template('customize.html', track_value=track_value, timeline=timeline)
+
+@app.route('/generate_playlist', methods=['GET', 'POST'])
 def generate_playlist():
     if 'access_token' not in session:
         return redirect(url_for('login'))
+    
+    # Retrieve values from the session
+    timeline = session.get('timeline')
+    track_value = session.get('track_value')
 
+    if timeline == '1':
+        time_range = 'short_term'
+    elif timeline == '2':
+        time_range = 'medium_term'
+    else:
+        time_range = 'long_term'
+
+    print(track_value)
+    print(timeline)
+    print(time_range)
+    
    # Retrieve user's top tracks from Spotify
     top_tracks_url = f"{SPOTIFY_API_URL}/me/top/tracks"
     headers = {'Authorization': f"Bearer {session['access_token']}"}
-    params = {'time_range': 'short_term', 'limit': 30}
+    params = {'time_range': time_range, 'limit': track_value}
     response = requests.get(top_tracks_url, headers=headers, params=params)
+    print("Top tracks response status:", response.status_code)  # Debug line
+    print("Top tracks response data:", response.json())  # Debug line
     top_tracks_data = response.json()
 
     # Create a new playlist
@@ -106,37 +125,23 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
-
-    # Get the playlist_id from the response
     playlist_id = response.json()['id']
-
-    # Now define the add_tracks_url
-    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-
-    # Add a delay before adding tracks
-    time.sleep(1)
 
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
     add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
     tracks_data = {'uris': track_uris}
-    while True:
-        response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
-        if response.status_code != 429:
-            break
-        retry_after = int(response.headers['Retry-After'])
-        time.sleep(retry_after)
-
-    # Print the status code and response body
-    print(f"Status code: {response.status_code}")
-    print(f"Response body: {response.json()}")
+    response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
+    print("Add tracks response status:", response.status_code)  # Debug line
+    print("Add tracks response data:", response.json())  # Debug line
     
-    # Create Variables for Embeded Playlist
+    # Create Variables for Embedded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     playlist_title = playlist_name
 
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
