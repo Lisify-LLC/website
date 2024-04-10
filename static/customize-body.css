@@ -5,7 +5,7 @@
 
 body {
   margin: 0px;
-  padding-top: 200px;
+  padding-top: 30px;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -22,8 +22,11 @@ main {
   max-width: 1200px; /* Limit the maximum width */
   margin: 0 auto; /* Center horizontally */
   background-color: rgb(46, 45, 45);
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* This will make sure the items are centered vertically in the entire viewport */
 }
 
 p {
@@ -36,6 +39,10 @@ p {
   font-family: 'Retrokia';
   font-size: 2.5vw; /* Responsive font size */
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .t-button {
@@ -55,6 +62,7 @@ p {
   padding-left: 1.6vw; /* Responsive padding */
   padding-right: 1.6vw; /* Responsive padding */
   margin-left: 1vw;
+  margin: 10px; /* Adjust as needed */
 }
 
 .t-button:active {
@@ -85,15 +93,9 @@ p {
   border-radius: 50%; /* Round */
 }
 
-.track-slider, .time-slider {
+.track-slider, .time-slider, .button-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.button-container {
-  display: flex;
   justify-content: center;
   align-items: center;
 }
