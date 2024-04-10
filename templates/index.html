@@ -25,7 +25,13 @@
   </head>
 
   <body>
-
+    <script>
+      window.addEventListener('scroll', function() {
+        var rotation = window.pageYOffset / window.innerHeight * 360;
+        document.querySelector('.logo img').style.transform = 'rotate(' + rotation + 'deg)';
+      });
+    </script>
+    
     <header class="header">
       <div class="l-header">
 
