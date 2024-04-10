@@ -25,12 +25,13 @@ body {
   align-items: center;
 }
 
-.disc {
-  width: 100%; /* Adjust as needed */
-  height: auto; /* Adjust as needed */
-  max-width: 800px; /* Limit the maximum width */
-  margin: 50px auto;
-  margin-left: 3vw; /* Center horizontally */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.logo img {
+  animation: spin 5s linear infinite;
 }
 
 .text-login {
