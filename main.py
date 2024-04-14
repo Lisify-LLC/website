@@ -1,7 +1,8 @@
-from flask import Flask, redirect, url_for, session, request, render_template
+from flask import Flask, redirect, url_for, session, request, render_template, abort
 import requests
 import os
 import time
+import secrets
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -20,7 +21,7 @@ SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}'
 
 # Scopes for Spotify API
 SCOPE = 'user-top-read playlist-modify-public playlist-modify-private'
-STATE = ''
+STATE = secrets.token_hex(16)
 
 @app.route('/')
 def index():
@@ -55,6 +56,9 @@ def login():
 
 @app.route('/callback')
 def callback():
+    state = request.args.get('state')
+    if state != STATE:
+        abort(403)  # Forbidden
     auth_token = request.args['code']
     code_payload = {
         'grant_type': 'authorization_code',
@@ -68,11 +72,26 @@ def callback():
 
     response_data = post_request.json()
     access_token = response_data['access_token']
+    refresh_token = response_data['refresh_token']  # Store the refresh token
 
     session['access_token'] = access_token
-
+    session['refresh_token'] = refresh_token  # Store the refresh token in the session
 
     return redirect(url_for('generate_playlist'))
+
+def refresh_access_token():
+    refresh_token = session['refresh_token']
+    refresh_url = "https://accounts.spotify.com/api/token"
+    refresh_data = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    refresh_response = requests.post(refresh_url, data=refresh_data)
+    refresh_response_data = refresh_response.json()
+    new_access_token = refresh_response_data['access_token']
+    session['access_token'] = new_access_token  # Store the new access token in the session
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
@@ -113,6 +132,11 @@ def generate_playlist():
     headers = {'Authorization': f"Bearer {session['access_token']}"}
     params = {'time_range': time_range, 'limit': track_value}
     response = requests.get(top_tracks_url, headers=headers, params=params)
+
+    if response.status_code == 401:  # If the access token has expired
+        refresh_access_token()  # Refresh the access token
+        response = requests.get(top_tracks_url, headers=headers, params=params)  # Try the request again
+
     print("Top tracks response status:", response.status_code)  # Debug line
     print("Top tracks response data:", response.json())  # Debug line
     top_tracks_data = response.json()
@@ -160,11 +184,34 @@ def generate_playlist():
     start_time = time.time()
 
     for i in range(1):  # Retry up to 1 times
-            response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
-            if response.status_code == 201:  # If the request was successful, break the loop
-                break
-            print(f"Attempt {i+1} failed, retrying in 1 seconds...")
-            time.sleep(1)  # Wait for 1 seconds before the next try
+        response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
+        if response.status_code == 201:  # If the request was successful, break the loop
+            break
+        elif response.status_code == 400:  # Bad Request
+            print("Bad Request: The request could not be understood or was missing required parameters.")
+            break
+        elif response.status_code == 401:  # Unauthorized
+            print("Unauthorized: Authentication failed or was not provided.")
+            refresh_access_token()  # Refresh the access token
+            continue
+        elif response.status_code == 403:  # Forbidden
+            print("Forbidden: The request was understood, but it has been refused or access is not allowed.")
+            break
+        elif response.status_code == 404:  # Not Found
+            print("Not Found: The URI requested is invalid or the resource requested does not exist.")
+            break
+        elif response.status_code == 429:  # Too Many Requests
+            print("Too Many Requests: Rate limiting has been applied.")
+            if 'Retry-After' in response.headers:
+                delay = int(response.headers['Retry-After'])  # Delay is in seconds
+                time.sleep(delay)
+                continue
+        else:
+            print(f"An error occurred: {response.status_code}")
+            break
+
+        print(f"Attempt {i+1} failed, retrying in 1 seconds...")
+        time.sleep(1)  # Wait for 1 seconds before the next try
 
     # After the request
     end_time = time.time()
