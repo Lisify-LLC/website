@@ -185,10 +185,9 @@ def generate_playlist():
 
     for i in range(5):  # Retry up to 5 times
         response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
-        if response.status_code == 201:  # If the request was successful, break the loop
+        if response.status_code == 200:  # If the request was successful, break the loop
             break
-        elif response.status_code == 200:  # OK
-            print("OK: The request was successful, but the tracks may not have been added to the playlist.")
+        elif response.status_code == 201:  # If the request was successful, break the loop
             break
         elif response.status_code == 400:  # Bad Request
             print("Bad Request: The request could not be understood or was missing required parameters.")
@@ -203,6 +202,8 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Not Found: The URI requested is invalid or the resource requested does not exist.")
+            print("Regenerating the playlist...")
+            generate_playlist()  # Call the function again to regenerate the playlist
             break
         elif response.status_code == 429:  # Too Many Requests
             print("Too Many Requests: Rate limiting has been applied.")
