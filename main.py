@@ -164,7 +164,7 @@ def generate_playlist():
             if response.status_code == 201:  # If the request was successful, break the loop
                 break
             print(f"Attempt {i+1} failed, retrying in 5 seconds...")
-            time.sleep(2)  # Wait for 5 seconds before the next try
+            time.sleep(1)  # Wait for 1 seconds before the next try
 
     # After the request
     end_time = time.time()
