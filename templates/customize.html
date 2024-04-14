@@ -1,42 +1,31 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Listify - Customize and Generate</title>
     <link rel = "stylesheet" href = "static/header.css">
     <link rel = "stylesheet" href = "static/customize-body.css">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
-
 </head>
-
 <body>
   <header class="header">
     <div class="l-header">
-
       <a href = "/" style = "text-decoration: none;"><div class = "title">Listify</div></a>
     </div>
     <div class="r-header">
-
-
       <div class = "about-div">
         <a href = "/about"><button class = "about-button">About</button></a>
       </div>
-
-
       <div class = "p-div">
-        <a href = "/privacy-policy"><button class = "p-button">Privacy Policy</button></a>      </div>
-
+        <a href = "/privacy-policy"><button class = "p-button">Privacy Policy</button></a>      
+      </div>
     </div>
   </header>
-
   <main>
     <div class = "main-page">
       <form action = "/data" method = "POST">
         <div class = "track-slider">
-          <form action = "/data" method = "POST">
           <input type="range" min="1" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
           <p class = "slider-text">Tracks: <span id="demo"></span></p>
           <script>
@@ -47,12 +36,9 @@
             slider.oninput = function() {
               output.innerHTML = this.value;
             }
-
           </script>
-          </form>
         </div>
         <div class = "time-slider">
-        <form action = "/data" method = "POST">
           <input type="range" min="1" max="3" value="Last 6 Months" class="slider-time" id="myRange2" name = "time">
           <p class = "slider-text">Timeline: <span id="demo2"></span></p>
           <script>
@@ -73,20 +59,14 @@
             slider2.oninput = function() {
               setInitialText();
             }
-
           </script>
-          </form>
         </div>
-        <form action = "/data" method = "POST">
         <button type="submit" class = "t-button">Send Customization</button>
-        </form>
-        <div class = "button-container">
-          <a href = "/generate_playlist"; = "/login"><button class = "t-button">Generate Playlist</button>
-        </div>
-      
-  </div>
+      </form>
+      <div class = "button-container">
+        <a href = "/generate_playlist"; = "/login"><button class = "t-button">Generate Playlist</button>
+      </div>
+    </div>
   </main>
-
 </body>
-
 </html>

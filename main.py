@@ -127,6 +127,14 @@ def generate_playlist():
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
     playlist_id = response.json()['id']
 
+    # Check if 'id' is in the response before accessing it
+    response_data = response.json()
+    if 'id' in response_data:
+        playlist_id = response_data['id']
+    else:
+        print("Error: 'id' not found in response data")
+        return "Error: 'id' not found in response data", 400
+
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
     add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
