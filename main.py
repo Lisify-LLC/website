@@ -6,9 +6,9 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-CLIENT_ID = '23b153e787a14abe82424a9238c36101'
-CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
-REDIRECT_URI = 'http://127.0.0.1:5000/callback'
+CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
+CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
+REDIRECT_URI = 'https://listify.lol/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
@@ -116,9 +116,18 @@ def generate_playlist():
     print("Top tracks response data:", response.json())  # Debug line
     top_tracks_data = response.json()
 
+    # Retrieve values from the session
+    timeline = session.get('timeline')
+    track_value = session.get('track_value')
+
+    # Create a dictionary to map timeline values to their string representations
+    timeline_dict = {'1': 'Last Month', '2': 'Last 6 Months', '3': 'Last Year'}
+
+    # Create the playlist name
+    playlist_name = f"Top {track_value} Tracks - {timeline_dict[timeline]}"
+
     # Create a new playlist
     create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
-    playlist_name = "Top 20 Tracks Last Year"
     playlist_data = {
         'name': playlist_name,
         'description': '',
