@@ -5,7 +5,7 @@
 
 body{
   margin: 0px;
-  padding-top: 80px;
+  padding-top: 20px;
   min-height: 100vh;
   padding-bottom: 0px;
   display: flex;
@@ -39,6 +39,8 @@ p {
   font-family: 'MyFont';
   font-size: 80px;
   color: white;
+  line-height: 1.5;
+  margin-bottom: 1px;
 }
 
 .visionp, .aboutp {
@@ -47,4 +49,6 @@ p {
   padding-left: 20px;
   padding-right: 20px;
   text-align: center;
+  line-height: 1.5;
+  margin-bottom: 1px;
 }
