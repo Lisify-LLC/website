@@ -183,35 +183,12 @@ def generate_playlist():
     # Before the request
     start_time = time.time()
 
-    for i in range(5):  # Retry up to 5 times
+    for i in range(1):  # Retry up to 1 times
         response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
         if response.status_code == 201:  # If the request was successful, break the loop
             break
-        elif response.status_code == 400:  # Bad Request
-            print("Bad Request: The request could not be understood or was missing required parameters.")
-            break
-        elif response.status_code == 401:  # Unauthorized
-            print("Unauthorized: Authentication failed or was not provided.")
-            refresh_access_token()  # Refresh the access token
-            continue
-        elif response.status_code == 403:  # Forbidden
-            print("Forbidden: The request was understood, but it has been refused or access is not allowed.")
-            break
-        elif response.status_code == 404:  # Not Found
-            print("Not Found: The URI requested is invalid or the resource requested does not exist.")
-            break
-        elif response.status_code == 429:  # Too Many Requests
-            print("Too Many Requests: Rate limiting has been applied.")
-            if 'Retry-After' in response.headers:
-                delay = int(response.headers['Retry-After'])  # Delay is in seconds
-                time.sleep(delay)
-                continue
-        else:
-            print(f"An error occurred: {response.status_code}")
-            break
-
-        print(f"Attempt {i+1} failed, retrying in 5 seconds...")
-        time.sleep(5)  # Wait for 5 seconds before the next try
+        print(f"Attempt {i+1} failed, retrying in 1 seconds...")
+        time.sleep(1)  # Wait for 1 seconds before the next try
 
     # After the request
     end_time = time.time()
