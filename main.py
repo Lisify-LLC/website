@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 import requests
 import os
+import time
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -154,7 +155,17 @@ def generate_playlist():
     track_uris = [track['uri'] for track in top_tracks_data['items']]
     add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
     tracks_data = {'uris': track_uris}
+
+    # Before the request
+    start_time = time.time()
+
     response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
+
+    # After the request
+    end_time = time.time()
+
+    print("Time taken to add tracks:", end_time - start_time)  # Debug line
+
     print("Add tracks response status:", response.status_code)  # Debug line
     print("Add tracks response data:", response.json())  # Debug line
     
