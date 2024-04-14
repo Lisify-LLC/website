@@ -159,7 +159,7 @@ def generate_playlist():
     # Before the request
     start_time = time.time()
 
-    for i in range(2):  # Retry up to 2 times
+    for i in range(1):  # Retry up to 1 times
             response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
             if response.status_code == 201:  # If the request was successful, break the loop
                 break
