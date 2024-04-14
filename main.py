@@ -93,8 +93,8 @@ def generate_playlist():
         return redirect(url_for('login'))
     
     # Retrieve values from the session
-    timeline = session.get('timeline')
-    track_value = session.get('track_value')
+    timeline = session.get('timeline', '2')
+    track_value = session.get('track_value', '25')
 
     if timeline == '1':
         time_range = 'short_term'
@@ -122,6 +122,12 @@ def generate_playlist():
 
     # Create a dictionary to map timeline values to their string representations
     timeline_dict = {'1': 'Last Month', '2': 'Last 6 Months', '3': 'Last Year'}
+
+    if timeline is None:
+        timeline = '2'
+    
+    if track_value is None:
+        track_value = '25'
 
     # Create the playlist name
     playlist_name = f"Top {track_value} Tracks - {timeline_dict[timeline]}"
@@ -155,6 +161,10 @@ def generate_playlist():
     # Create Variables for Embedded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     playlist_title = playlist_name
+
+    # Reset timeline and track_value in the session
+    session['timeline'] = '2'
+    session['track_value'] = '25'
 
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 

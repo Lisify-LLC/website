@@ -27,20 +27,20 @@
       <form action = "/data" method = "POST">
         <div class = "track-slider">
           <input type="range" min="1" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
-          <p class = "slider-text">Tracks: <span id="demo"></span></p>
+          <p class = "slider-text">Tracks:&thinsp;<span id="demo"></span></p>
           <script>
             var slider = document.getElementById("myRange");
             var output = document.getElementById("demo");
             output.innerHTML = slider.value;
             
             slider.oninput = function() {
-              output.innerHTML = this.value;
+              output.innerHTML = " " + this.value;
             }
           </script>
         </div>
         <div class = "time-slider">
           <input type="range" min="1" max="3" value="Last 6 Months" class="slider-time" id="myRange2" name = "time">
-          <p class = "slider-text">Timeline: <span id="demo2"></span></p>
+          <p class = "slider-text">Timeline:&thinsp;<span id="demo2"></span></p>
           <script>
             var slider2 = document.getElementById("myRange2");
             var output2 = document.getElementById("demo2");
@@ -56,6 +56,8 @@
               }
             }
       
+            setInitialText();
+
             slider2.oninput = function() {
               setInitialText();
             }
