@@ -109,6 +109,7 @@ def data():
 
 @app.route('/generate_playlist', methods=['GET', 'POST'])
 def generate_playlist():
+    print("Generating a new playlist")
     if 'access_token' not in session:
         return redirect(url_for('login'))
     
