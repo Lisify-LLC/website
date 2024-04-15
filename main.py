@@ -108,6 +108,46 @@ def data():
     return render_template('customize.html', track_value=track_value, timeline=timeline)
 
 @app.route('/generate_playlist', methods=['GET', 'POST'])
+def check_playlist_exists(playlist_id):
+    """
+    This function checks if a playlist exists by making a GET request to the Spotify API.
+    """
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    response = requests.get(f"{SPOTIFY_API_URL}/playlists/{playlist_id}", headers=headers)
+    return response.status_code == 200
+
+def create_playlist():
+    """
+    This function creates a new playlist by making a POST request to the Spotify API.
+    """
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    playlist_data = {
+        'name': 'New Playlist',
+        'description': 'Created by Spotify API',
+        'public': True
+    }
+    response = requests.post(f"{SPOTIFY_API_URL}/me/playlists", headers=headers, json=playlist_data)
+    return response.json()['id']
+
+def check_tracks_exist(track_uris):
+    """
+    This function checks if tracks exist by making a GET request to the Spotify API for each track.
+    """
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    for track_uri in track_uris:
+        response = requests.get(f"{SPOTIFY_API_URL}/tracks/{track_uri}", headers=headers)
+        if response.status_code != 200:
+            return False
+    return True
+
+def fetch_new_tracks():
+    """
+    This function fetches new tracks by making a GET request to the Spotify API.
+    """
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    response = requests.get(f"{SPOTIFY_API_URL}/me/top/tracks", headers=headers)
+    return [track['uri'] for track in response.json()['items']]
+
 def generate_playlist():
     print("Generating a new playlist")
     if 'access_token' not in session:
@@ -203,9 +243,22 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Not Found: The URI requested is invalid or the resource requested does not exist.")
-            print("Regenerating the playlist...")
-            generate_playlist()  # Call the function again to regenerate the playlist
-            break
+            print("Checking the playlist and tracks...")
+
+            # Check if the playlist exists
+            playlist_exists = check_playlist_exists(playlist_id)
+            if not playlist_exists:
+                print("The playlist does not exist. Creating a new playlist...")
+                playlist_id = create_playlist()
+
+            # Check if the tracks exist
+            tracks_exist = check_tracks_exist(track_uris)
+            if not tracks_exist:
+                print("Some tracks do not exist. Fetching new tracks...")
+                track_uris = fetch_new_tracks()
+
+            print("Adding tracks to the playlist...")
+            continue
         elif response.status_code == 429:  # Too Many Requests
             print("Too Many Requests: Rate limiting has been applied.")
             if 'Retry-After' in response.headers:
