@@ -7,6 +7,26 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+
+    <script>
+      function storeValues() {
+        var tracks = document.getElementById("myRange").value;
+        var time = document.getElementById("myRange2").value;
+        localStorage.setItem("tracks", tracks);
+        localStorage.setItem("time", time);
+      }
+
+      window.onload = function() {
+        var tracks = localStorage.getItem("tracks");
+        var time = localStorage.getItem("time");
+        if (tracks) {
+            document.getElementById("myRange").value = tracks;
+        }
+        if (time) {
+            document.getElementById("myRange2").value = time;
+        }
+      }
+    </script>
 </head>
 <body>
   <header class="header">
@@ -63,7 +83,7 @@
             }
           </script>
         </div>
-        <button type="submit" class = "t-button">Send Customization</button>
+        <button type="submit" class="t-button" onclick="storeValues()">Send Customization</button>
       </form>
       <div class = "button-container">
         <a href = "/generate_playlist"; = "/login"><button class = "t-button">Generate Playlist</button>
