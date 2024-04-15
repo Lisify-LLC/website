@@ -9,23 +9,45 @@
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <script>
+      var isButtonClicked = false;
       function storeValues() {
         var tracks = document.getElementById("myRange").value;
         var time = document.getElementById("myRange2").value;
+        var tracksDisplay = document.getElementById("demo").innerHTML;
+        var timeDisplay = document.getElementById("demo2").innerHTML;
         localStorage.setItem("tracks", tracks);
         localStorage.setItem("time", time);
+        localStorage.setItem("tracksDisplay", tracksDisplay);
+        localStorage.setItem("timeDisplay", timeDisplay);
+        isButtonClicked = true;
+        document.getElementById("myForm").submit();
       }
-
       window.onload = function() {
         var tracks = localStorage.getItem("tracks");
         var time = localStorage.getItem("time");
+        var tracksDisplay = localStorage.getItem("tracksDisplay");
+        var timeDisplay = localStorage.getItem("timeDisplay");
         if (tracks) {
             document.getElementById("myRange").value = tracks;
         }
         if (time) {
             document.getElementById("myRange2").value = time;
         }
+        if (tracksDisplay) {
+            document.getElementById("demo").innerHTML = tracksDisplay;
+        }
+        if (timeDisplay) {
+            document.getElementById("demo2").innerHTML = timeDisplay;
+        }
       }
+      window.addEventListener('beforeunload', function() {
+        if (!isButtonClicked) {
+          localStorage.removeItem("tracks");
+          localStorage.removeItem("time");
+          localStorage.removeItem("tracksDisplay");
+          localStorage.removeItem("timeDisplay");
+        }
+      });
     </script>
 </head>
 <body>
@@ -44,7 +66,7 @@
   </header>
   <main>
     <div class = "main-page">
-      <form action = "/data" method = "POST">
+      <form id="myForm" action="/data" method="POST" onsubmit="event.preventDefault(); storeValues();">
         <div class = "track-slider">
           <input type="range" min="1" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
           <p class = "slider-text">Tracks:&thinsp;<span id="demo"></span></p>
