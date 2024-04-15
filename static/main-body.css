@@ -39,6 +39,11 @@ body {
   animation: spin 5s linear infinite;
 }
 
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+}
+
 .text-login {
   display: grid;
   grid-template-rows: auto auto;
