@@ -8,9 +8,9 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
-CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
-REDIRECT_URI = 'https://listify.lol/callback'
+CLIENT_ID = '23b153e787a14abe82424a9238c36101'
+CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
+REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
@@ -139,7 +139,6 @@ def generate_playlist():
         response = requests.get(top_tracks_url, headers=headers, params=params)  # Try the request again
 
     print("Top tracks response status:", response.status_code)  # Debug line
-    print("Top tracks response data:", response.json())  # Debug line
     top_tracks_data = response.json()
 
     # Retrieve values from the session
@@ -166,7 +165,7 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
-    playlist_id = response.json()['id']
+    playlist_id = "response.json()['id']"
 
     # Check if 'id' is in the response before accessing it
     response_data = response.json()
@@ -203,7 +202,15 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Regenerating the playlist...")
-            generate_playlist()  # Call the function again to regenerate the playlist
+            # Delete the empty playlist
+            delete_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}"
+            delete_response = requests.delete(delete_playlist_url, headers=headers)
+            if delete_response.status_code == 200:
+                print("Empty playlist deleted successfully.")
+            else:
+                print(f"Failed to delete empty playlist: {delete_response.status_code}")
+            # Regenerate the playlist
+            generate_playlist()
             break
         elif response.status_code == 502:  # Bad Gateway
             print("Bad Gateway: The server was acting as a gateway or proxy and received an invalid response from the upstream server.")
