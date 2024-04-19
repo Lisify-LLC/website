@@ -279,7 +279,12 @@ def get_embedded_playlist(playlist_id, max_retries=5):
         response = requests.get(playlist_url, headers=headers)
         
         if response.status_code == 200:
-            return response.json()  # or whatever you want to do with the response
+            response_data = response.json()
+            if 'id' in response_data:
+                return response_data
+            else:
+                print(f"Error: 'id' not found in response data. Response data: {response_data}")
+                return f"Error: 'id' not found in response data. Response data: {response_data}", 400
         else:
             print(f"Request failed with status code {response.status_code}, retrying in {2**i} seconds...")
             time.sleep(2**i)  # exponential backoff
