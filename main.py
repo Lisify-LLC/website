@@ -252,7 +252,6 @@ def generate_playlist():
     end_time = time.time()
 
     print("Time taken to add tracks:", end_time - start_time)  # Debug line
-    
     print("Add tracks response status:", response.status_code)  # Debug line
     print("Add tracks response data:", response.json())  # Debug line
     
@@ -273,10 +272,11 @@ def generate_playlist():
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 
 def get_embedded_playlist(playlist_id, max_retries=5):
-    playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+    playlist_url = f"https://api.spotify.com/v1/playlists/{playlist_id}"
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
     
     for i in range(max_retries):
-        response = requests.get(playlist_url)
+        response = requests.get(playlist_url, headers=headers)
         
         if response.status_code == 200:
             return response.json()  # or whatever you want to do with the response
