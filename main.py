@@ -203,8 +203,9 @@ def generate_playlist():
         add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
         tracks_data = {'uris': track_uris}
     else:
-        # Before the request
-        start_time = time.time()
+        return "Error: Playlist not ready", 400
+    
+    start_time = time.time()
 
     for i in range(5):  # Retry up to 5 times
         response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
