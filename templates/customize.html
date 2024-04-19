@@ -68,7 +68,7 @@
     <div class = "main-page">
       <form id="myForm" action="/data" method="POST" onsubmit="event.preventDefault(); storeValues();">
         <div class = "track-slider">
-          <input type="range" min="1" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
+          <input type="range" min=0" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
           <p class = "slider-text">Tracks:&thinsp;<span id="demo"></span></p>
           <script>
             var slider = document.getElementById("myRange");

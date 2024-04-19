@@ -169,7 +169,7 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
-    playlist_id = "response.json()['id']"
+    playlist_id = response.json()['id']
 
     # Check if 'id' is in the response before accessing it
     response_data = response.json()
@@ -179,13 +179,32 @@ def generate_playlist():
         print("Error: 'id' not found in response data")
         return "Error: 'id' not found in response data", 400
 
-    # Add tracks to the playlist
-    track_uris = [track['uri'] for track in top_tracks_data['items']]
-    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-    tracks_data = {'uris': track_uris}
+    # After creating the playlist
+    time.sleep(2)  # Wait for 2 seconds
 
-    # Before the request
-    start_time = time.time()
+    # Check if playlist is ready
+    playlist_ready = False
+    retry_count = 0
+    max_retries = 5  # Maximum number of retries
+
+    while not playlist_ready and retry_count < max_retries:
+        # Check if playlist is ready
+        playlist_response = requests.get(f"{SPOTIFY_API_URL}/playlists/{playlist_id}", headers=headers)
+        if playlist_response.status_code == 200:
+            playlist_ready = True
+        else:
+            retry_count += 1
+            time.sleep(2**retry_count)  # Exponential backoff
+
+    # If playlist is ready, add tracks
+    if playlist_ready:
+        # Add tracks to the playlist
+        track_uris = [track['uri'] for track in top_tracks_data['items']]
+        add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+        tracks_data = {'uris': track_uris}
+    else:
+        # Before the request
+        start_time = time.time()
 
     for i in range(5):  # Retry up to 5 times
         response = requests.post(add_tracks_url, json=tracks_data, headers=headers)
