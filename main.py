@@ -245,8 +245,8 @@ def generate_playlist():
             print(f"An error occurred: {response.status_code}")
             break
 
-        print(f"Attempt {i+1} failed, retrying in 1 seconds...")
-        time.sleep(1)  # Wait for 1 seconds before the next try
+    print(f"Attempt {i+1} failed, retrying in 1 seconds...")
+    time.sleep(1)  # Wait for 1 seconds before the next try
 
     # After the request
     end_time = time.time()
@@ -256,6 +256,12 @@ def generate_playlist():
     print("Add tracks response status:", response.status_code)  # Debug line
     print("Add tracks response data:", response.json())  # Debug line
     
+    # After creating the playlist and adding tracks
+    playlist_id = response.json()['id']
+    embedded_playlist = get_embedded_playlist(playlist_id)
+    if isinstance(embedded_playlist, str) and "Error" in embedded_playlist:
+        return embedded_playlist, 400
+
     # Create Variables for Embedded Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     playlist_title = playlist_name
@@ -265,6 +271,20 @@ def generate_playlist():
     session['track_value'] = '25'
 
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
+
+def get_embedded_playlist(playlist_id, max_retries=5):
+    playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+    
+    for i in range(max_retries):
+        response = requests.get(playlist_url)
+        
+        if response.status_code == 200:
+            return response.json()  # or whatever you want to do with the response
+        else:
+            print(f"Request failed with status code {response.status_code}, retrying in {2**i} seconds...")
+            time.sleep(2**i)  # exponential backoff
+        
+    return "Error: Failed to retrieve embedded playlist after maximum number of retries", 400
 
 if __name__ == '__main__':
     app.run(debug=True)
