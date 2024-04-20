@@ -102,6 +102,10 @@ def data():
     track_value = request.form.get('tracks')
     timeline = request.form.get('time')
 
+    #Check if track_value os 0 and set it to 1 if it is
+    if track_value == '0':
+        track_value = '1'
+
     # Store values in the session
     session['track_value'] = track_value
     session['timeline'] = timeline
@@ -206,13 +210,13 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Regenerating the playlist...")
-            # Delete the empty playlist
-            delete_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}"
-            delete_response = requests.delete(delete_playlist_url, headers=headers)
-            if delete_response.status_code == 200:
-                print("Empty playlist deleted successfully.")
+            # Clear the playlist
+            clear_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+            clear_response = requests.put(clear_playlist_url, headers=headers, data=json.dumps({"uris": []}))
+            if clear_response.status_code == 200:
+                print("Playlist cleared successfully.")
             else:
-                print(f"Failed to delete empty playlist: {delete_response.status_code}")
+                print(f"Failed to clear playlist: {clear_response.status_code}")
             # Regenerate the playlist
             generate_playlist()
             break
@@ -225,8 +229,8 @@ def generate_playlist():
             print(f"An error occurred: {response.status_code}")
             break
 
-        print(f"Attempt {i+1} failed, retrying in 1 seconds...")
-        time.sleep(1)  # Wait for 1 seconds before the next try
+    print(f"Attempt {i+1} failed, retrying in 1 seconds...")
+    time.sleep(1)  # Wait for 1 seconds before the next try
 
     # After the request
     end_time = time.time()
