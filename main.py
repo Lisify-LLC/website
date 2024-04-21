@@ -210,13 +210,6 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Regenerating the playlist...")
-            # Clear the playlist
-            clear_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-            clear_response = requests.put(clear_playlist_url, headers=headers, data=json.dumps({"uris": []}))
-            if clear_response.status_code == 200:
-                print("Playlist cleared successfully.")
-            else:
-                print(f"Failed to clear playlist: {clear_response.status_code}")
             # Regenerate the playlist
             generate_playlist()
             break
