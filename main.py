@@ -1,4 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, render_template, abort
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import requests
 import os
 import time
@@ -8,13 +10,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-#CLIENT_ID = '23b153e787a14abe82424a9238c36101'
-#CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
-#REDIRECT_URI = 'http://127.0.0.1:5000/callback'
+CLIENT_ID = '23b153e787a14abe82424a9238c36101'
+CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
+REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 
-CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
-CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
-REDIRECT_URI = 'https://listify.lol/callback'
+#CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
+#CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
+#REDIRECT_URI = 'https://listify.lol/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
@@ -102,7 +104,7 @@ def data():
     track_value = request.form.get('tracks')
     timeline = request.form.get('time')
 
-    #Check if track_value os 0 and set it to 1 if it is
+    #Check if track_value is 0 and set it to 1 if it is
     if track_value == '0':
         track_value = '1'
 
@@ -154,7 +156,7 @@ def generate_playlist():
     track_value = session.get('track_value')
 
     # Create a dictionary to map timeline values to their string representations
-    timeline_dict = {'1': 'Last Month', '2': 'Last 6 Months', '3': 'Last Year'}
+    timeline_dict = {'1': 'Last 4 Weeks', '2': 'Last 6 Months', '3': 'Last 12 Months'}
 
     if timeline is None:
         timeline = '2'
@@ -165,11 +167,28 @@ def generate_playlist():
     # Create the playlist name
     playlist_name = f"Top {track_value} Tracks - {timeline_dict[timeline]}"
 
+     # Calculate the start date based on the timeline value
+    end_date = datetime.now()
+    if timeline == '1':
+        start_date = end_date - relativedelta(weeks=4)
+    elif timeline == '2':
+        start_date = end_date - relativedelta(months=6)
+    else:
+        start_date = end_date - relativedelta(years=1)
+
+    # Format the dates
+    start_date_str = start_date.strftime("%m/%d/%Y")
+    end_date_str = end_date.strftime("%m/%d/%Y")
+
+    # Include the dates in the playlist description
+    playlist_description = f"This playlist contains your top {track_value} songs from {start_date_str} to {end_date_str}"
+
+
     # Create a new playlist
     create_playlist_url = f"{SPOTIFY_API_URL}/me/playlists"
     playlist_data = {
         'name': playlist_name,
-        'description': '',
+        'description': playlist_description,
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
