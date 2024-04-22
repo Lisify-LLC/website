@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'MyFont';
-  src: url('VTCSuperMarketSaleItalic.ttf') format('truetype');
-}
+@import 'variables.css';
 
 body{
   margin: 0px;
@@ -9,7 +6,7 @@ body{
   min-height: 100vh;
   padding-bottom: 0px;
   display: flex;
-  background-color: rgb(46, 45, 45);
+  background-color: var(--listify-grey);
 }
 
 main{
@@ -18,7 +15,7 @@ main{
 
 .main-page{
   width: 100%;
-  background-color: rgb(46, 45, 45);
+  background-color: var(--listify-grey);
   align-items: center;
   display: flex;
   justify-content: center;
@@ -36,7 +33,7 @@ main{
 }
 
 p {
-  font-family: 'MyFont';
+  font-family: var(--main-font);
   font-size: 80px;
   color: white;
   line-height: 1.5;

@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'MyFont';
+    src: url('VTCSuperMarketSaleItalic.ttf') format('truetype');
+}
+
+:root {   
+    --main-font: 'MyFont';
+    --listify-grey: rgb(46, 45, 45);
+    --listify-green: rgb(0, 150, 115);
+    --green-button: rgba(0, 150, 100, 0.5);
+    --black-button: rgba(0, 0, 0, 0.5);
+}
