@@ -10,13 +10,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Spotify API credentials
-CLIENT_ID = '23b153e787a14abe82424a9238c36101'
-CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
-REDIRECT_URI = 'http://127.0.0.1:5000/callback'
+#CLIENT_ID = '23b153e787a14abe82424a9238c36101'
+#CLIENT_SECRET = '2809d34409d7424c9eab342e1deed3a5'
+#REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 
-#CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
-#CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
-#REDIRECT_URI = 'https://listify.lol/callback'
+CLIENT_ID = 'd61b59a21f5f41a980741d941d94b003'
+CLIENT_SECRET = '0a8ee53e3e4348d7bc5bb0aeca4d2996'
+REDIRECT_URI = 'https://listify.lol/callback'
 
 # Spotify API endpoints
 SPOTIFY_AUTH_URL = 'https://accounts.spotify.com/authorize'
