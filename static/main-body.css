@@ -1,5 +1,25 @@
 @import 'variables.css';
 
+@media screen and (max-width: 414px) and (max-height: 896px) {
+  .main-body {
+    padding: 5%; /* Adjust padding for smaller screens */
+  }
+
+  .content {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .image {
+    width: 100%; /* Make images responsive */
+    height: auto;
+  }
+
+  .button {
+    width: 80%; /* Adjust button width for smaller screens */
+    padding: 10px; /* Adjust button padding for smaller screens */
+  }
+}
+
 body {
   margin: 0px;
   padding-top: 80px;
