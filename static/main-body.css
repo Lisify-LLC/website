@@ -1,25 +1,5 @@
 @import 'variables.css';
 
-@media screen and (max-width: 414px) and (max-height: 896px) {
-  .main-body {
-    padding: 5%; /* Adjust padding for smaller screens */
-  }
-
-  .content {
-    font-size: 14px; /* Adjust font size for smaller screens */
-  }
-
-  .image {
-    width: 100%; /* Make images responsive */
-    height: auto;
-  }
-
-  .button {
-    width: 80%; /* Adjust button width for smaller screens */
-    padding: 10px; /* Adjust button padding for smaller screens */
-  }
-}
-
 body {
   margin: 0px;
   padding-top: 80px;
@@ -130,4 +110,22 @@ body {
   opacity: 0.8;
   box-shadow: 0px 0.2vw 0px 0px var(--black-button); /* Responsive box shadow */
   transform: translateY(4px); /* Responsive transform */
+}
+
+.playlist-container {
+  width: 80%; /* Adjust as needed */
+  margin: 0 auto; /* Center the div */
+}
+
+.playlist-example {
+  font-family: var(--main-font);
+  font-size: 5vw;
+  color: white;
+  padding-top: 5vw;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.example-1, .example-2 {
+  margin-bottom: 20px; /* Adjust as needed */
 }
