@@ -67,8 +67,9 @@
 
 .home-button, .about-button, .p-button, .contact-button {
   height: 7vh; /* Responsive button height */
-  min-width: 10%; /* Responsive button width */
-  font-size: 1vw; /* Responsive font size */
+  width: 15vw; /* Responsive button width */
+  min-width: 100px; /* Responsive button width */
+  font-size:calc(10px + 1vw); /* Responsive font size */
   font-family: "MyFont";
   color: black;
   background-color: var(--listify-green);

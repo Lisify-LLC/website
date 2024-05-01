@@ -32,6 +32,7 @@ body {
 .main-flex {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .main-page {
@@ -39,12 +40,14 @@ body {
   background-color: var(--listify-grey);
   display: grid;
   grid-template-columns: 4fr 3fr;
+  margin-top: 10px;
 }
 
 .div-disc {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 10px;
 }
 
 @keyframes spin {
@@ -85,10 +88,10 @@ body {
 }
 
 .spotify-button, .apple-button {
-  height: 5vw; /* Responsive button height */
-  min-width: 90px;
+  height: 9vh; /* Responsive button height */
   width: 20vw; /* Responsive button width */
-  font-size: 1.7vw; /* Responsive font size */
+  min-width: 100px; /* Responsive button width */
+  font-size:calc(10px + 0.9vw); /* Responsive font size */
   line-height: 1.3;
   font-family: var(--main-font);
   color: rgb(0, 0, 0);

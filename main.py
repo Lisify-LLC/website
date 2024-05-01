@@ -239,7 +239,7 @@ def generate_playlist():
     print("Add tracks response status:", response.status_code)  # Debug line
     print("Add tracks response data:", response.json())  # Debug line
     
-    # Create Variables for Embedded Playlist
+    # Create Variables for Embedded Generated Playlist
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     playlist_title = playlist_name
 
