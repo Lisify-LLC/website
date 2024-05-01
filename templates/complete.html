@@ -4,6 +4,7 @@
 <head>
   <title>Listify - Playlist Generated</title>
   <link rel="stylesheet" href="static/header.css">
+  <link rel="stylesheet" href="static/complete-body.css">
   <link rel="stylesheet" href="static/about-body.css">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,17 +40,17 @@
         <p>Playlist Generated!</p>
       </div>
       
-      <!-- Embedded Spotify playlist -->
-      <iframe style="border-radius: 25px" width="50%" height="400" 
-      title="{{ playlist_title }}" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
-      src="{{ playlist_url }}"></iframe>
-      
-      <div class="back">
-        <a href="/" class="p-div">
-          <button class="p-button">Back</button>
-        </a>
+      <div class="playlist-container">
+        <iframe class="playlist" style="border-radius: 25px" width="50%" height="400" 
+        title="{{ playlist_title }}" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+        src="{{ playlist_url }}"></iframe>
+        
+        <div class="back">
+          <a href="/" class="p-div">
+            <button class="p-button">Back</button>
+          </a>
+        </div>
       </div>
-    </div>
   </main>
 
 </body>

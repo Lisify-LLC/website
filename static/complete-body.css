@@ -1,32 +1,46 @@
 @import 'variables.css';
 
-body{
-  margin: 0px;
-  padding-top: 80px;
-  min-height: 100vh;
-  padding-bottom: 0px;
+body, .main-page {
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0;
+  padding: 0 0 20px 0;
   background-color: var(--listify-grey);
-  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 main{
   width: 100%;
 }
 
-.main-page{
+.main-page {
+  overflow: auto;
+}
+
+.generated {
+  font-family: var(--main-font);
+  font-size: 40px;
+  color: white;
+}
+
+.back{
   width: 100%;
   background-color: var(--listify-grey);
   align-items: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
-
+  margin-top: 10px;
 }
 
-p {
-  font-family: var(--main-font);
-  font-size: 50px;
-  padding-top: 10px;
-  color: white;
+.playlist-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
