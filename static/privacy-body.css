@@ -21,7 +21,7 @@ main{
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 70px;
 
 }
 
@@ -42,7 +42,7 @@ main{
 }
 
 .privacy-info {
-  font-size: calc(20px + 1vw);
+  font-size: calc(30px + 1vw);
   font-family: var(--main-font);
   color: white;
   font-size: 20px;
