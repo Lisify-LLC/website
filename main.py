@@ -203,6 +203,11 @@ def generate_playlist():
     if not playlist_id:  # If the playlist ID is not found in the response
         print("Playlist ID not found in the response.")
         return  # Exit the function
+    
+    # Add tracks to the playlist
+    track_uris = [track['uri'] for track in top_tracks_data['items']]
+    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
+    tracks_data = {'uris': track_uris}
 
     # Before the request
     start_time = time.time()
