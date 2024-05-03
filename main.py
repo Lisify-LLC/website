@@ -274,6 +274,8 @@ def generate_playlist():
     session['timeline'] = '2'
     session['track_value'] = '25'
 
+    time.sleep(1) # Wait for 1 second before redirecting to the complete page
+
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 
 if __name__ == '__main__':
