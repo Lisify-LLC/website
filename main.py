@@ -246,7 +246,7 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Not Found: The requested resource could not be found.")
-            break
+            return render_template('error.html', message="The playlist could not be found or is not accessible.")  # Return an error page
         elif response.status_code == 502:  # Bad Gateway
             print("Bad Gateway: The server was acting as a gateway or proxy and received an invalid response from the upstream server.")
             if i < 9:  # If this is not the last attempt
