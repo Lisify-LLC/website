@@ -1,36 +1,47 @@
+@import 'variables.css';
+
 body {
   margin: 0px;
   padding-top: 80px;
   width: 100%;
   min-height: 100vh;
   display: flex;
-  background-color: rgb(46, 45, 45);
+  background-color: var(--listify-grey);
 }
 
 .main-flex {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .main-page {
   width: 100%;
-  background-color: rgb(46, 45, 45);
+  background-color: var(--listify-grey);
   display: grid;
   grid-template-columns: 4fr 3fr;
+  margin-top: 10px;
 }
 
 .div-disc {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 10px;
 }
 
-.disc {
-  width: 100%; /* Adjust as needed */
-  height: auto; /* Adjust as needed */
-  max-width: 800px; /* Limit the maximum width */
-  margin: 50px auto;
-  margin-left: 3vw; /* Center horizontally */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.logo img {
+  animation: spin 5s linear infinite;
+}
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
 }
 
 .text-login {
@@ -39,13 +50,14 @@ body {
 }
 
 .intro-text {
-  font-family: 'Chakra Petch';
+  font-family: var(--main-font);
   font-size: 5vw; /* Responsive font size */
   color: white;
   margin-left: 20px;
   padding-top: 5vw; /* Responsive padding */
   text-align: right;
   padding-right: 6vw; /* Responsive padding */
+  line-height: 1.5;
 }
 
 .login-buttons {
@@ -56,18 +68,19 @@ body {
 }
 
 .spotify-button, .apple-button {
-  height: 5vw; /* Responsive button height */
-  min-width: 90px;
+  height: 9vh; /* Responsive button height */
   width: 20vw; /* Responsive button width */
-  font-size: 1.8vw; /* Responsive font size */
-  font-family: 'Chakra Petch';
+  min-width: 100px; /* Responsive button width */
+  font-size:calc(10px + 0.9vw); /* Responsive font size */
+  line-height: 1.3;
+  font-family: var(--main-font);
   color: rgb(0, 0, 0);
-  background-color: rgb(0, 150, 115);
+  background-color: var(--listify-green);
   border-width: 0;
   border-radius: 10px;
   cursor: pointer;
   opacity: 1;
-  box-shadow: 0px 0.6vw 0px 0px rgba(0, 150, 100, 0.5); /* Responsive box shadow */
+  box-shadow: 0px 0.6vw 0px 0px var(--green-button); /* Responsive box shadow */
   transition-duration: 0.2s;
   padding-left: 1.6vw; /* Responsive padding */
   padding-right: 1.6vw; /* Responsive padding */
@@ -76,7 +89,7 @@ body {
 .apple-button {
   color: white;
   background-color: black;
-  box-shadow: 0px 0.6vw 0px 0px rgba(0, 0, 0, 0.5); /* Responsive box shadow */
+  box-shadow: 0px 0.6vw 0px 0px var(--black-button); /* Responsive box shadow */
   margin-left: 2vw;
   margin-right: 2vw; /* Responsive margin */
 }
@@ -89,12 +102,30 @@ body {
 
 .spotify-button:active {
   opacity: 0.8;
-  box-shadow: 0px 0.2vw 0px 0px rgba(0, 150, 100, 0.5); /* Responsive box shadow */
+  box-shadow: 0px 0.2vw 0px 0px var(--green-button); /* Responsive box shadow */
   transform: translateY(4px); /* Responsive transform */
 }
 
 .apple-button:active {
   opacity: 0.8;
-  box-shadow: 0px 0.2vw 0px 0px rgba(0, 0, 0, 0.5); /* Responsive box shadow */
+  box-shadow: 0px 0.2vw 0px 0px var(--black-button); /* Responsive box shadow */
   transform: translateY(4px); /* Responsive transform */
+}
+
+.playlist-container {
+  width: 80%; /* Adjust as needed */
+  margin: 0 auto; /* Center the div */
+}
+
+.playlist-example {
+  font-family: var(--main-font);
+  font-size: 5vw;
+  color: white;
+  padding-top: 5vw;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.example-1, .example-2 {
+  margin-bottom: 20px; /* Adjust as needed */
 }

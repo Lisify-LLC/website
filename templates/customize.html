@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Listify - Customize and Generate</title>
     <link rel = "stylesheet" href = "static/header.css">
     <link rel = "stylesheet" href = "static/customize-body.css">
     
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
 
+    <script>
+      var isButtonClicked = false;
+      function storeValues() {
+        var tracks = document.getElementById("myRange").value;
+        var time = document.getElementById("myRange2").value;
+        var tracksDisplay = document.getElementById("demo").innerHTML;
+        var timeDisplay = document.getElementById("demo2").innerHTML;
+        localStorage.setItem("tracks", tracks);
+        localStorage.setItem("time", time);
+        localStorage.setItem("tracksDisplay", tracksDisplay);
+        localStorage.setItem("timeDisplay", timeDisplay);
+        isButtonClicked = true;
+        document.getElementById("myForm").submit();
+      }
+      window.onload = function() {
+        var tracks = localStorage.getItem("tracks");
+        var time = localStorage.getItem("time");
+        var tracksDisplay = localStorage.getItem("tracksDisplay");
+        var timeDisplay = localStorage.getItem("timeDisplay");
+        if (tracks) {
+            document.getElementById("myRange").value = tracks;
+        }
+        if (time) {
+            document.getElementById("myRange2").value = time;
+        }
+        if (tracksDisplay) {
+            document.getElementById("demo").innerHTML = tracksDisplay;
+        }
+        if (timeDisplay) {
+            document.getElementById("demo2").innerHTML = timeDisplay;
+        }
+      }
+      window.addEventListener('beforeunload', function() {
+        if (!isButtonClicked) {
+          localStorage.removeItem("tracks");
+          localStorage.removeItem("time");
+          localStorage.removeItem("tracksDisplay");
+          localStorage.removeItem("timeDisplay");
+        }
+      });
+    </script>
 </head>
-
 <body>
   <header class="header">
     <div class="l-header">
-
       <a href = "/" style = "text-decoration: none;"><div class = "title">Listify</div></a>
     </div>
     <div class="r-header">
-
-
       <div class = "about-div">
         <a href = "/about"><button class = "about-button">About</button></a>
       </div>
-
-
       <div class = "p-div">
-        <a href = "/privacy-policy"><button class = "p-button">Privacy Policy</button></a>      </div>
-
+        <a href = "/privacy-policy"><button class = "p-button">Privacy Policy</button></a>      
+      </div>
     </div>
   </header>
-
   <main>
-    <a href = "/generate_playlist"; = "/login"><button id = "toggleButton" class = "t-button" onclick = toggleButton() >Generate Track Playlist</button></a>
+    <div class = "main-page">
+      <form id="myForm" action="/data" method="POST" onsubmit="event.preventDefault(); storeValues();">
+        <div class = "track-slider">
+          <input type="range" min="0" max="50" value="25" class="slider-tracks" id="myRange" name = "tracks">
+          <p class = "slider-text">Tracks:&thinsp;<span id="demo"></span></p>
+          <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+            
+            slider.oninput = function() {
+              output.innerHTML = " " + this.value;
+            }
+          </script>
+        </div>
+        <div class = "time-slider">
+          <input type="range" min="1" max="3" value="Last 6 Months" class="slider-time" id="myRange2" name = "time">
+          <p class = "slider-text">Timeline:&thinsp;<span id="demo2"></span></p>
+          <script>
+            var slider2 = document.getElementById("myRange2");
+            var output2 = document.getElementById("demo2");
+            
+      
+            function setInitialText() {
+              if (slider2.value == 1) {
+                output2.innerHTML = "Last 4 Weeks";
+              } else if (slider2.value == 2) {
+                output2.innerHTML = "Last 6 Months";
+              } else {
+                output2.innerHTML = "Last 12 Months";
+              }
+            }
+      
+            setInitialText();
 
-    <button class = "a-button" >Generate Artist Playlist</button>
+            slider2.oninput = function() {
+              setInitialText();
+            }
+          </script>
+        </div>
+        <button type="submit" class="t-button" onclick="storeValues()">Send Customization</button>
+      </form>
+      <div class = "button-container">
+        <a href = "/generate_playlist"; = "/login"><button class = "t-button">Generate Playlist</button>
+      </div>
+    </div>
   </main>
-
-  <script>
-    var buttonState = false; // Initially, button is in off state
-    
-    function toggleButton() {
-      var button = document.getElementById('toggleButton');
-      if (buttonState) {
-        buttonState = false;
-        button.classList.remove('active');
-        button.classList.add('inactive');
-      } else {
-        buttonState = true;
-        button.classList.remove('inactive');
-        button.classList.add('active');
-      }
-    }
-    </script>
-
 </body>
-
 </html>

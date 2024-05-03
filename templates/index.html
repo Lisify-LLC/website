@@ -5,19 +5,6 @@
     <link rel = "stylesheet" href = "static/header.css">
     <link rel = "stylesheet" href = "static/main-body.css">
     
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
@@ -33,17 +20,9 @@
       </div>
       <div class="r-header">
 
-        <!--<div class = "home-div">
-          <button class = "home-button">Home</button>
-        </div> -->
-
         <div class = "about-div">
           <a href = "/about"><button class = "about-button">About</button></a>
         </div>
-
-        <!--<div class = "contact-div">
-          <button class = "contact-button">Contact</button>
-        </div>-->
 
         <div class = "p-div">
           <a href = "/privacy-policy"><button class = "p-button">Privacy Policy</button></a>        </div>
@@ -54,10 +33,11 @@
     <main>
       <div class = "main-flex">
       <div class = "main-page">
+        
         <div class = "div-disc">
-        <video class = "disc" preload="auto" autoplay loop muted="muted" volume="0"> 
-          <source src="static/ListifyLogoNoWords.mp4" type="video/mp4"> 
-          </video>
+          <div class="logo">
+            <img class="responsive-image" src="static/recordlogo.png" alt="Logo">          
+          </div>
         </div>
 
         <div class = "text-login">
@@ -65,11 +45,34 @@
           <div class = "intro-text">Customize Your Playlists With Listify!</div>
 
           <div class = "login-buttons">
-            <a href = "/customize"><button class = "spotify-button">Login With Spotify</button></a>
+            <a href = "/customize"><button class = "spotify-button">Continue With Spotify</button></a>
 
-            <a href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" target = "_blank"><button class = "apple-button">Login With Apple Music</button></a>
+            <a href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" target = "_blank"><button class = "apple-button">Continue With <br> Apple Music</button></a>
           </div>
 
+        </div>
+
+        
+          </div>
+          <div class="embed-examples" style = "width: 67%; margin: 25px; justify-content: center; align-items: center;"></div>
+            <p class="playlist-example">Playlist Examples:</p>
+              <div class="playlist-container">
+                <iframe class="example-1" style="border-radius: 25px" width="100%" height="400" 
+                  title="Top 50 Tracks - Last 4 Weeks" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+                  src="https://open.spotify.com/embed/playlist/0ISj1nNKOToyz4UyNJ45Lm?si=21f67bf1dc464b77"></iframe>
+              </div>
+
+              <div class="playlist-container">
+                <iframe class="example-2" style="border-radius: 25px" width="100%" height="400" 
+                  title="Top 10 Tracks - Last 6 Months" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+                  src="https://open.spotify.com/embed/playlist/7hGvJvTr7PjuXgBGXKnJMo"></iframe>
+              </div>
+
+              <div class="playlist-container">
+                <iframe class="example-3" style="border-radius: 25px" width="100%" height="400" 
+                  title="Top 25 Tracks - Last Year" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+                  src="https://open.spotify.com/embed/playlist/64sUNtjkLSmuZ3V1cwHb2q?si=749d95d528724da5"></iframe>
+              </div>
         </div>
 
       </div>

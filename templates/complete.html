@@ -4,19 +4,10 @@
 <head>
   <title>Listify - Playlist Generated</title>
   <link rel="stylesheet" href="static/header.css">
+  <link rel="stylesheet" href="static/complete-body.css">
   <link rel="stylesheet" href="static/about-body.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&display=swap" rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
 </head>
@@ -49,17 +40,17 @@
         <p>Playlist Generated!</p>
       </div>
       
-      <!-- Embedded Spotify playlist -->
-      <iframe style="border-radius: 25px" width="50%" height="400" 
-      title="{{ playlist_title }}" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
-      src="{{ playlist_url }}"></iframe>
-      
-      <div class="back">
-        <a href="/" class="p-div">
-          <button class="p-button">Back</button>
-        </a>
+      <div class="playlist-container">
+        <iframe class="playlist" style="border-radius: 25px" width="50%" height="400" 
+        title="{{ playlist_title }}" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+        src="{{ playlist_url }}"></iframe>
+        
+        <div class="back">
+          <a href="/" class="p-div">
+            <button class="p-button">Back</button>
+          </a>
+        </div>
       </div>
-    </div>
   </main>
 
 </body>
