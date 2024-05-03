@@ -34,7 +34,7 @@ p {
 
 .slider-text {
   font-family: var(--main-font);
-  font-size: 2.5vw; /* Responsive font size */
+  font-size: 3vw; /* Responsive font size */
   color: white;
   display: flex;
   align-items: center;
@@ -43,11 +43,11 @@ p {
 }
 
 .t-button {
-  height: 5vw; /* Responsive button height */
+  height: 10vh; /* Responsive button height */
   min-width: 90px;
   width: 50vw; /* Responsive button width */
-  font-size: 1.8vw; /* Responsive font size */
-  font-family: var(--main-font);
+  font-size:calc(10px + 1vw);
+  font-family: "MyFont";
   color: black;
   background-color: var(--listify-green);
   border-width: 0;
@@ -73,10 +73,10 @@ p {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 50vw; /* Full-width */
-  height: 2.5vw; /* Specified height */
+  height: 8vw; /* Specified height */
   background: var(--listify-green); /* Green background */
   outline: none; /* Remove outline */
-  border-radius: 20px;
+  border-radius: 10px;
 
 }
 
@@ -84,10 +84,10 @@ p {
   -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
   width: 2.5vw; /* Specified width */
-  height: 2.5vw; /* Specified height */
+  height: 8vw; /* Specified height */
   background: black; /* Green background */
   cursor: pointer; /* Cursor on hover */
-  border-radius: 50%; /* Round */
+  border-radius: 10px; /* Round */
 }
 
 .track-slider, .time-slider, .button-container {
