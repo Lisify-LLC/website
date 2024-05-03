@@ -192,13 +192,17 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
-    
+
+    if response.status_code not in [200, 201]:  # If the request was not successful
+        print("Playlist creation failed with status:", response.status_code)
+        print("Response data:", response.json())
+        return  # Exit the function
+
     playlist_id = response.json().get('id')
-    
-    # Add tracks to the playlist
-    track_uris = [track['uri'] for track in top_tracks_data['items']]
-    add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
-    tracks_data = {'uris': track_uris}
+
+    if not playlist_id:  # If the playlist ID is not found in the response
+        print("Playlist ID not found in the response.")
+        return  # Exit the function
 
     # Before the request
     start_time = time.time()
