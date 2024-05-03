@@ -211,6 +211,8 @@ def generate_playlist():
 
     print("Playlist ID:", playlist_id)  # Print the playlist ID
 
+    time.sleep(2)  # Wait for 1 second before adding tracks to the playlist
+
     # Add a check here to ensure the playlist exists before adding tracks
     check_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}"
     response = requests.get(check_playlist_url, headers=headers)
