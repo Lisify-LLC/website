@@ -192,13 +192,40 @@ def generate_playlist():
         'public': True
     }
     response = requests.post(create_playlist_url, json=playlist_data, headers=headers)
+    if response.status_code not in [200, 201]:  # If the request was not successful
+        print("Playlist creation failed with status:", response.status_code)
+        print("Response data:", response.json())
+        return render_template('error.html', message="Playlist creation failed.")  # Return an error page
     
-    playlist_id = response.json().get('id')
-    
+    # Check the response for errors
+    response_data = response.json()
+    if 'error' in response_data:
+        print("Error in playlist creation response:", response_data['error'])
+        return  # Exit the function
+
+    # Get the playlist ID
+    playlist_id = response_data.get('id')
+    if not playlist_id:  # If the playlist ID is not found in the response
+        print("Playlist ID not found in the response.")
+        return render_template('error.html', message="Playlist ID not found.")  # Return an error page
+
+    print("Playlist ID:", playlist_id)  # Print the playlist ID
+
+    time.sleep(1)  # Wait for 1 second before adding tracks to the playlist
+
+    # Add a check here to ensure the playlist exists before adding tracks
+    check_playlist_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}"
+    response = requests.get(check_playlist_url, headers=headers)
+    if response.status_code != 200:  # If the request was not successful
+        print("Playlist check failed with status:", response.status_code)
+        print("Response data:", response.json())
+        return render_template('error.html', message="Playlist check failed.")  # Return an error page
+
     # Add tracks to the playlist
     track_uris = [track['uri'] for track in top_tracks_data['items']]
     add_tracks_url = f"{SPOTIFY_API_URL}/playlists/{playlist_id}/tracks"
     tracks_data = {'uris': track_uris}
+    print("Track URIs:", track_uris)  # Print the track URIs
 
     # Before the request
     start_time = time.time()
@@ -221,7 +248,7 @@ def generate_playlist():
             break
         elif response.status_code == 404:  # Not Found
             print("Not Found: The requested resource could not be found.")
-            break
+            return render_template('error.html', message="The playlist could not be found or is not accessible.")  # Return an error page
         elif response.status_code == 502:  # Bad Gateway
             print("Bad Gateway: The server was acting as a gateway or proxy and received an invalid response from the upstream server.")
             if i < 9:  # If this is not the last attempt
@@ -246,6 +273,8 @@ def generate_playlist():
     # Reset timeline and track_value in the session
     session['timeline'] = '2'
     session['track_value'] = '25'
+
+    time.sleep(1) # Wait for 1 second before redirecting to the complete page
 
     return render_template('complete.html', playlist_url=playlist_url, playlist_title=playlist_title)
 
