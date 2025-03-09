@@ -22,40 +22,6 @@
 - **Deployment:** Render.com  
 - **Version Control:** GitHub  
 
-## 🚀 Getting Started  
-
-### Prerequisites  
-
-- Python 3.x installed  
-- Spotify Developer Account & API credentials  
-
-### Installation  
-
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/Lisify-LLC/website.git
-   cd website
-   ```  
-2. Install dependencies:  
-   ```bash
-   pip install -r requirements.txt
-   ```  
-3. Set up Spotify API credentials in a `.env` file:  
-   ```plaintext
-   SPOTIFY_CLIENT_ID=your_client_id
-   SPOTIFY_CLIENT_SECRET=your_client_secret
-   SPOTIFY_REDIRECT_URI=http://localhost:5000/callback
-   ```  
-4. Run the application:  
-   ```bash
-   python app.py
-   ```  
-5. Open `http://localhost:5000` in your browser.  
-
-## 📄 License  
-
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.  
-
 ## 📩 Contact  
 
 For any inquiries or contributions, reach out via GitHub Issues.
