@@ -1,13 +1,13 @@
-# Listify.lol 🎵  
+# Listify 🎵  
 
 ### Generate Personalized Spotify Playlists Effortlessly  
 
-[![Website](https://img.shields.io/badge/Website-Listify.lol-blue)](https://listify.lol)  
+[![Website](https://img.shields.io/badge/Website-Listify-blue)](https://listify-z3a8.onrender.com)  
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black)](https://github.com/Lisify-LLC/website)  
 
 ## 📌 About  
 
-**Listify.lol** is a web app designed to enhance the way users create Spotify playlists. By integrating with Spotify’s Developer API, Listify.lol allows users to log in with their Spotify account and generate playlists based on their listening habits over a chosen period.  
+**Listify** is a web app designed to enhance the way users create Spotify playlists. By integrating with Spotify’s Developer API, Listify allows users to log in with their Spotify account and generate playlists based on their listening habits over a chosen period.  
 
 ## ✨ Features  
 
