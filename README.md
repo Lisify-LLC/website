@@ -59,4 +59,4 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 ## 📩 Contact  
 
-For any inquiries or contributions, reach out via GitHub Issues.  
+For any inquiries or contributions, reach out via GitHub Issues.
