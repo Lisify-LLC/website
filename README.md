@@ -3,7 +3,6 @@
 ### Generate Personalized Spotify Playlists Effortlessly  
 
 [![Website](https://img.shields.io/badge/Website-Listify-blue)](https://listify-z3a8.onrender.com)  
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black)](https://github.com/Lisify-LLC/website)  
 
 ## 📌 About  
 
