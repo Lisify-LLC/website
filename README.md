@@ -20,7 +20,6 @@
 - **Backend:** Python (Flask)  
 - **Frontend:** HTML, CSS  
 - **Deployment:** Render.com  
-- **Version Control:** GitHub  
 
 ## 📩 Contact  
 
